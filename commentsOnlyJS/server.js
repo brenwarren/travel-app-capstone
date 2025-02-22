@@ -1,22 +1,40 @@
 // Setup empty JS object to act as endpoint for all routes
+let projectData = {};
+
 // Express to run server and routes
+const express = require('express');
+const app = express();
+const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-// Start up an instance of app
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
 
-/* Dependencies */
-/* Middleware*/
+// Serve static files from the 'website' directory
+app.use(express.static(path.join(__dirname, '../website')));
 
-//Here we are configuring express to use body-parser as middle-ware.
-// Cors for cross origin allowance
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});
 
-// Initialize the main project folder
+// GET route that returns the projectData object
+app.get('/all', (req, res) => {
+    res.send(projectData);
+});
 
-// Spin up the server
-// Callback to debug
-
-// Initialize all route with a callback function
-
-// Callback function to complete GET '/all'
-
-// Post Route
+// POST route that adds incoming data to projectData
+app.post('/add', (req, res) => {
+    console.log('Incoming Data:', req.body);
+    projectData = {
+        temperature: req.body.temperature,
+        date: req.body.date,
+        userResponse: req.body.userResponse
+    };
+    console.log('Updated projectData:', projectData);
+    res.send(projectData);
+});
   
