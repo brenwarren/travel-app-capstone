@@ -68,17 +68,3 @@ const updateUI = async () => {
         console.log('Response was not JSON:', responseText);
     }
 };
-
-
-/**
- * 
- * 
- * Explanation:
-Global Variables: The base URL and API key are defined at the top.
-Date Instance: A new date instance is created dynamically.
-Event Listener: An event listener is added to the element with the id generate.
-performAction Function: This function is called when the button is clicked. It retrieves the zip code and user response from the input fields, calls the getWeather function, and then calls the postData function with the weather data, date, and user response. Finally, it calls the updateUI function.
-getWeather Function: This async function makes a GET request to the OpenWeatherMap API and returns the weather data.
-postData Function: This async function makes a POST request to the server with the weather data, date, and user response.
-updateUI Function: This async function retrieves the project data from the server and updates the UI elements with the temperature, date, and user response.
- */
