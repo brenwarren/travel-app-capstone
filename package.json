@@ -1,5 +1,5 @@
 {
-  "name": "weather-journal-app",
+  "name": "travel-app-capstone",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,15 +7,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brenwarren/weather-journal-app.git"
+    "url": "git+https://github.com/brenwarren/travel-app-capstone.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/brenwarren/weather-journal-app/issues"
+    "url": "https://github.com/brenwarren/travel-app-capstone/issues"
   },
-  "homepage": "https://github.com/brenwarren/weather-journal-app#readme",
+  "homepage": "https://github.com/brenwarren/travel-app-capstone#readme",
   "description": "",
   "dependencies": {
     "body-parser": "^1.20.3",

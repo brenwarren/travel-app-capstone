@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Serve static files from the 'website' directory
-app.use(express.static(path.join(__dirname, '../website')));
+app.use(express.static(path.join(__dirname, '../client')));
 
 const port = 3000;
 app.listen(port, () => {
