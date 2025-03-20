@@ -1,3 +1,4 @@
+// filepath: /Users/brenwarren/COURSE WORK/travel-app-capstone/src/server/server.js
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
 
@@ -13,8 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// Serve static files from the 'website' directory
-app.use(express.static(path.join(__dirname, '../client')));
+// Serve static files from the 'dist' directory
+app.use(express.static(path.join(__dirname, '../../dist')));
 
 const port = 3000;
 app.listen(port, () => {
@@ -37,4 +38,8 @@ app.post('/add', (req, res) => {
     console.log('Updated projectData:', projectData);
     res.send(projectData);
 });
-  
+
+// Serve the index.html file for all routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
+});
