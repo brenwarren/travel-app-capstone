@@ -1,3 +1,6 @@
+// import scss file
+import '../styles/style.scss';
+
 /* Global Variables */
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 const apiKey = '5d42225edc898d1242807eacb5ed22fa&units=metric';
