@@ -10,10 +10,10 @@ let d = new Date();
 let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
 
 // Event listener to add function to existing HTML DOM element
-document.getElementById('generate').addEventListener('click', performAction);
+//document.getElementById('generate').addEventListener('click', performAction);
 
 /* Function called by event listener */
-function performAction(e) {
+export function performAction(e) {
     const zip = document.getElementById('zip').value;
     const userResponse = document.getElementById('feelings').value;
     getWeather(baseURL, zip, apiKey)
