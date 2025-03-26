@@ -1,12 +1,14 @@
-// filepath: /Users/brenwarren/COURSE WORK/travel-app-capstone/webpack.config.js
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './src/client/js/app.js',
+  entry: {
+    app: './src/client/js/app.js',
+    domEvents: './src/client/js/domEvents.js'
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
