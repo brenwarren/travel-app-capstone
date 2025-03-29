@@ -1,47 +1,15 @@
-// import scss file
+// Import SCSS file
 import '../styles/style.scss';
 
 /* Global Variables */
 const baseURL = 'http://api.geonames.org/searchJSON?q=';
 const username = 'brenwarren'; // Geonames username
 
-// Event listener to add function to existing HTML DOM element
-// This function is called when the button with id 'generate' is clicked.
-// It retrieves the value of the input field with id 'city'.
-// It calls the getCityData function to fetch data from the Geonames API.
-// If the data is successfully retrieved, it updates the UI with the longitude, latitude, and country name.
-// If there is an error, it logs the error message and alerts the user.
-// The function is defined in the app.js file and is imported here.
-
-
-export function performAction(e) {
-    const city = document.getElementById('city').value;
-    getCityData(baseURL, city, username)
-        .then(function(data) {
-            if (data && data.geonames && data.geonames.length > 0) {
-                const { lng, lat, countryName } = data.geonames[0]; // Extract from the first result
-                console.log(`Longitude: ${lng}, Latitude: ${lat}, Country: ${countryName}`);
-                updateUI(lng, lat, countryName);
-            } else {
-                console.error('No location data found in the API response:', data);
-                alert('Unable to retrieve location data. Please try again.');
-            }
-        })
-        .catch(function(error) {
-            console.error('Error fetching city data:', error.message || error);
-            alert('An error occurred while fetching city data. Please try again.');
-        });
-}
-
-
 /* Function to GET Geonames API Data */
-
+// This function fetches data from the Geonames API based on the city name provided.
 // It constructs the URL using the base URL, city name, and username.
 // It fetches data from the Geonames API and returns the JSON response.
 // If the response is not ok, it throws an error.
-// The function is asynchronous and uses try-catch for error handling.
-// The function is called in the performAction function when the button is clicked.
-// This function fetches data from the Geonames API based on the city name provided
 const getCityData = async (baseURL, city, username) => {
     try {
         const res = await fetch(`${baseURL}${city}&username=${username}`);
@@ -57,8 +25,8 @@ const getCityData = async (baseURL, city, username) => {
     }
 };
 
-// This function updates the UI with the longitude, latitude, and country name.
 /* Function to update UI */
+// This function updates the UI with the longitude, latitude, and country name.
 const updateUI = (longitude, latitude, country) => {
     const longitudeElement = document.getElementById('longitude');
     const latitudeElement = document.getElementById('latitude');
@@ -82,3 +50,28 @@ const updateUI = (longitude, latitude, country) => {
         console.error("Element with id 'country' not found.");
     }
 };
+
+/* Main Function: performAction */
+// This function is called when the button with id 'generate' is clicked.
+// It retrieves the value of the input field with id 'city'.
+// It calls the getCityData function to fetch data from the Geonames API.
+// If the data is successfully retrieved, it updates the UI with the longitude, latitude, and country name.
+// If there is an error, it logs the error message and alerts the user.
+export function performAction(e) {
+    const city = document.getElementById('city').value;
+    getCityData(baseURL, city, username)
+        .then(function(data) {
+            if (data && data.geonames && data.geonames.length > 0) {
+                const { lng, lat, countryName } = data.geonames[0]; // Extract from the first result
+                console.log(`Longitude: ${lng}, Latitude: ${lat}, Country: ${countryName}`);
+                updateUI(lng, lat, countryName);
+            } else {
+                console.error('No location data found in the API response:', data);
+                alert('Unable to retrieve location data. Please try again.');
+            }
+        })
+        .catch(function(error) {
+            console.error('Error fetching city data:', error.message || error);
+            alert('An error occurred while fetching city data. Please try again.');
+        });
+}
