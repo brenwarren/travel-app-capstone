@@ -2,72 +2,83 @@
 import '../styles/style.scss';
 
 /* Global Variables */
-const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '5d42225edc898d1242807eacb5ed22fa&units=metric';
-
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
+const baseURL = 'http://api.geonames.org/searchJSON?q=';
+const username = 'brenwarren'; // Geonames username
 
 // Event listener to add function to existing HTML DOM element
-//document.getElementById('generate').addEventListener('click', performAction);
+// This function is called when the button with id 'generate' is clicked.
+// It retrieves the value of the input field with id 'city'.
+// It calls the getCityData function to fetch data from the Geonames API.
+// If the data is successfully retrieved, it updates the UI with the longitude, latitude, and country name.
+// If there is an error, it logs the error message and alerts the user.
+// The function is defined in the app.js file and is imported here.
 
-/* Function called by event listener */
+
 export function performAction(e) {
-    const zip = document.getElementById('zip').value;
-    const userResponse = document.getElementById('feelings').value;
-    getWeather(baseURL, zip, apiKey)
+    const city = document.getElementById('city').value;
+    getCityData(baseURL, city, username)
         .then(function(data) {
-            postData('/add', {
-                temperature: data.main.temp,
-                date: newDate,
-                userResponse: userResponse
-            });
+            if (data && data.geonames && data.geonames.length > 0) {
+                const { lng, lat, countryName } = data.geonames[0]; // Extract from the first result
+                console.log(`Longitude: ${lng}, Latitude: ${lat}, Country: ${countryName}`);
+                updateUI(lng, lat, countryName);
+            } else {
+                console.error('No location data found in the API response:', data);
+                alert('Unable to retrieve location data. Please try again.');
+            }
         })
-        .then(updateUI);
+        .catch(function(error) {
+            console.error('Error fetching city data:', error.message || error);
+            alert('An error occurred while fetching city data. Please try again.');
+        });
 }
 
-/* Function to GET Web API Data */
-const getWeather = async (baseURL, zip, key) => {
-    const res = await fetch(baseURL + zip + '&appid=' + key);
+
+/* Function to GET Geonames API Data */
+
+// It constructs the URL using the base URL, city name, and username.
+// It fetches data from the Geonames API and returns the JSON response.
+// If the response is not ok, it throws an error.
+// The function is asynchronous and uses try-catch for error handling.
+// The function is called in the performAction function when the button is clicked.
+// This function fetches data from the Geonames API based on the city name provided
+const getCityData = async (baseURL, city, username) => {
     try {
+        const res = await fetch(`${baseURL}${city}&username=${username}`);
+        if (!res.ok) {
+            // Throw an error if the HTTP status is not in the 200–299 range
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
         const data = await res.json();
         return data;
     } catch (error) {
-        console.log('error', error);
+        console.error('Error in getCityData:', error);
+        throw error; // Re-throw the error to be caught in performAction
     }
 };
 
-/* Function to POST data */
-const postData = async (url = '', data = {}) => {
-    const response = await fetch(url, {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
+// This function updates the UI with the longitude, latitude, and country name.
+/* Function to update UI */
+const updateUI = (longitude, latitude, country) => {
+    const longitudeElement = document.getElementById('longitude');
+    const latitudeElement = document.getElementById('latitude');
+    const countryElement = document.getElementById('country');
 
-    try {
-        const newData = await response.json();
-        return newData;
-    } catch (error) {
-        console.log('error', error);
+    if (longitudeElement) {
+        longitudeElement.innerHTML = `Longitude: ${longitude}`;
+    } else {
+        console.error("Element with id 'longitude' not found.");
     }
-};
 
-/* Function to GET Project Data and update UI */
-const updateUI = async () => {
-    const request = await fetch('http://127.0.0.1:3000/all');
-    try {
-        const allData = await request.json();
-        document.getElementById('temp').innerHTML = `Temperature: ${allData.temperature}°C`;
-        document.getElementById('date').innerHTML = `Date: ${allData.date}`;
-        document.getElementById('content').innerHTML = `User Response: ${allData.userResponse}`;
-    } catch (error) {
-        console.log('error', error);
-        const responseText = await request.text();
-        console.log('Response was not JSON:', responseText);
+    if (latitudeElement) {
+        latitudeElement.innerHTML = `Latitude: ${latitude}`;
+    } else {
+        console.error("Element with id 'latitude' not found.");
+    }
+
+    if (countryElement) {
+        countryElement.innerHTML = `Country: ${country}`;
+    } else {
+        console.error("Element with id 'country' not found.");
     }
 };
