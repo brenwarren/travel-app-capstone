@@ -27,27 +27,35 @@ const getCityData = async (baseURL, city, username) => {
 
 /* Function to update UI */
 // This function updates the UI with the longitude, latitude, and country name.
-const updateUI = (longitude, latitude, country) => {
-    const longitudeElement = document.getElementById('longitude');
-    const latitudeElement = document.getElementById('latitude');
-    const countryElement = document.getElementById('country');
-
-    if (longitudeElement) {
-        longitudeElement.innerHTML = `Longitude: ${longitude}`;
-    } else {
-        console.error("Element with id 'longitude' not found.");
+const updateUI = async () => {
+    const request = await fetch('/all');
+    try {
+        const allData = await request.json();
+        document.getElementById('longitude').innerHTML = `Longitude: ${allData.longitude}`;
+        document.getElementById('latitude').innerHTML = `Latitude: ${allData.latitude}`;
+        document.getElementById('country').innerHTML = `Country: ${allData.country}`;
+        document.getElementById('travelDate').innerHTML = `Travel Date: ${allData.travelDate}`; // Add travelDate to UI
+    } catch (error) {
+        console.log('Error:', error);
     }
+};
 
-    if (latitudeElement) {
-        latitudeElement.innerHTML = `Latitude: ${latitude}`;
-    } else {
-        console.error("Element with id 'latitude' not found.");
-    }
-
-    if (countryElement) {
-        countryElement.innerHTML = `Country: ${country}`;
-    } else {
-        console.error("Element with id 'country' not found.");
+/* Function to POST data to server */
+const postData = async (url = '', data = {}) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    try {
+        const newData = await response.json();
+        console.log('Data sent to server:', newData);
+        return newData;
+    } catch (error) {
+        console.log('Error:', error);
     }
 };
 
@@ -75,3 +83,24 @@ export function performAction(e) {
             alert('An error occurred while fetching city data. Please try again.');
         });
 }
+
+// Capture input values and send to server
+document.getElementById('generate').addEventListener('click', () => {
+    const city = document.getElementById('city').value;
+    const travelDate = document.getElementById('travelDate').value;
+
+    // Validate travelDate format (dd-mm-yyyy)
+    const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!dateRegex.test(travelDate)) {
+        alert('Please enter a valid date in the format dd-mm-yyyy');
+        return;
+    }
+
+    const data = {
+        city,
+        travelDate,
+        // Add other data like temperature, userResponse, etc.
+    };
+
+    postData('/add', data);
+});

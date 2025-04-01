@@ -33,7 +33,8 @@ app.post('/add', (req, res) => {
     projectData = {
         temperature: req.body.temperature,
         date: req.body.date,
-        userResponse: req.body.userResponse
+        userResponse: req.body.userResponse,
+        travelDate: req.body.travelDate // Add travelDate to projectData
     };
     console.log('Updated projectData:', projectData);
     res.send(projectData);
