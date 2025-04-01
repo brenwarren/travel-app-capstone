@@ -31,7 +31,7 @@ const updateUI = async () => {
     const request = await fetch('/all');
     try {
         const allData = await request.json();
-        console.log('Fetched Data:', allData);
+        console.log('Fetched Data from Server:', allData); // Log the fetched data for debugging
 
         // Update the UI with the fetched data
         document.getElementById('cityName').innerHTML = `City: ${allData.city || 'N/A'}`;
@@ -71,26 +71,6 @@ const postData = async (url = '', data = {}) => {
 // If there is an error, it logs the error message and alerts the user.
 export function performAction(e) {
     const city = document.getElementById('city').value;
-    getCityData(baseURL, city, username)
-        .then(function(data) {
-            if (data && data.geonames && data.geonames.length > 0) {
-                const { lng, lat, countryName } = data.geonames[0]; // Extract from the first result
-                console.log(`Longitude: ${lng}, Latitude: ${lat}, Country: ${countryName}`);
-                updateUI(lng, lat, countryName);
-            } else {
-                console.error('No location data found in the API response:', data);
-                alert('Unable to retrieve location data. Please try again.');
-            }
-        })
-        .catch(function(error) {
-            console.error('Error fetching city data:', error.message || error);
-            alert('An error occurred while fetching city data. Please try again.');
-        });
-}
-
-// Capture input values and send to server
-document.getElementById('generate').addEventListener('click', async () => {
-    const city = document.getElementById('city').value;
     const travelDate = document.getElementById('travelDate').value;
     const feelings = document.getElementById('feelings').value;
 
@@ -101,17 +81,40 @@ document.getElementById('generate').addEventListener('click', async () => {
         return;
     }
 
-    // Example data to send to the server
-    const data = {
-        city,
-        travelDate,
-        feelings,
-        // Add other fields like temperature, longitude, latitude, etc., if needed
-    };
+    console.log(`City: ${city}, Travel Date: ${travelDate}, Feelings: ${feelings}`);
 
-    // Send data to the server
-    await postData('/add', data);
+    getCityData(baseURL, city, username)
+        .then(function(data) {
+            if (data && data.geonames && data.geonames.length > 0) {
+                const { lng, lat, countryName } = data.geonames[0]; // Extract from the first result
+                console.log(`Fetched from API - Longitude: ${lng}, Latitude: ${lat}, Country: ${countryName}`);
 
-    // Update the UI with the latest data
-    updateUI();
-});
+                // Send data to the server
+                const postDataObject = {
+                    city,
+                    travelDate,
+                    feelings,
+                    longitude: lng,
+                    latitude: lat,
+                    country: countryName,
+                };
+                console.log('Data to be sent to server:', postDataObject);
+                return postData('/add', postDataObject);
+            } else {
+                console.error('No location data found in the API response:', data);
+                alert('Unable to retrieve location data. Please try again.');
+            }
+        })
+        .then(() => {
+            console.log('Data successfully sent to the server.');
+            // Update the UI after sending data to the server
+            updateUI();
+        })
+        .catch(function(error) {
+            console.error('Error fetching city data:', error.message || error);
+            alert('An error occurred while fetching city data. Please try again.');
+        });
+}
+
+// Capture input values and send to server
+document.getElementById('generate').addEventListener('click', performAction);

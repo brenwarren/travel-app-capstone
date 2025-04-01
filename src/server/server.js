@@ -29,19 +29,22 @@ app.get('/all', (req, res) => {
 
 // POST route that adds incoming data to projectData
 app.post('/add', (req, res) => {
-    console.log('Incoming Data:', req.body);
+    console.log('Incoming Data:', req.body); // Log the incoming data for debugging
+
+    // Update projectData with incoming data
     projectData = {
-        city: req.body.city, // Store city name
-        travelDate: req.body.travelDate, // Store travel date
+        city: req.body.city || 'N/A',
+        travelDate: req.body.travelDate || 'N/A',
         temperature: req.body.temperature || 'N/A',
         date: req.body.date || 'N/A',
-        userResponse: req.body.userResponse || 'N/A',
+        userResponse: req.body.feelings || 'N/A', // Corrected to match the client-side key
         longitude: req.body.longitude || 'N/A',
         latitude: req.body.latitude || 'N/A',
         country: req.body.country || 'N/A',
     };
-    console.log('Updated projectData:', projectData);
-    res.send(projectData);
+
+    console.log('Updated projectData:', projectData); // Log the updated projectData for debugging
+    res.send(projectData); // Send the updated projectData back to the client
 });
 
 // Serve the index.html file for all routes
