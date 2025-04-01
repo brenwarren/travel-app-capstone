@@ -31,12 +31,16 @@ const updateUI = async () => {
     const request = await fetch('/all');
     try {
         const allData = await request.json();
-        document.getElementById('longitude').innerHTML = `Longitude: ${allData.longitude}`;
-        document.getElementById('latitude').innerHTML = `Latitude: ${allData.latitude}`;
-        document.getElementById('country').innerHTML = `Country: ${allData.country}`;
-        document.getElementById('travelDate').innerHTML = `Travel Date: ${allData.travelDate}`; // Add travelDate to UI
+        console.log('Fetched Data:', allData);
+
+        // Update the UI with the fetched data
+        document.getElementById('cityName').innerHTML = `City: ${allData.city || 'N/A'}`;
+        document.getElementById('travelDate').innerHTML = `Travel Date: ${allData.travelDate || 'N/A'}`;
+        document.getElementById('country').innerHTML = `Country: ${allData.country || 'N/A'}`;
+        document.getElementById('longitude').innerHTML = `Longitude: ${allData.longitude || 'N/A'}`;
+        document.getElementById('latitude').innerHTML = `Latitude: ${allData.latitude || 'N/A'}`;
     } catch (error) {
-        console.log('Error:', error);
+        console.log('Error updating UI:', error);
     }
 };
 
@@ -85,9 +89,10 @@ export function performAction(e) {
 }
 
 // Capture input values and send to server
-document.getElementById('generate').addEventListener('click', () => {
+document.getElementById('generate').addEventListener('click', async () => {
     const city = document.getElementById('city').value;
     const travelDate = document.getElementById('travelDate').value;
+    const feelings = document.getElementById('feelings').value;
 
     // Validate travelDate format (dd-mm-yyyy)
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
@@ -96,11 +101,17 @@ document.getElementById('generate').addEventListener('click', () => {
         return;
     }
 
+    // Example data to send to the server
     const data = {
         city,
         travelDate,
-        // Add other data like temperature, userResponse, etc.
+        feelings,
+        // Add other fields like temperature, longitude, latitude, etc., if needed
     };
 
-    postData('/add', data);
+    // Send data to the server
+    await postData('/add', data);
+
+    // Update the UI with the latest data
+    updateUI();
 });

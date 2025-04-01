@@ -31,10 +31,14 @@ app.get('/all', (req, res) => {
 app.post('/add', (req, res) => {
     console.log('Incoming Data:', req.body);
     projectData = {
-        temperature: req.body.temperature,
-        date: req.body.date,
-        userResponse: req.body.userResponse,
-        travelDate: req.body.travelDate // Add travelDate to projectData
+        city: req.body.city, // Store city name
+        travelDate: req.body.travelDate, // Store travel date
+        temperature: req.body.temperature || 'N/A',
+        date: req.body.date || 'N/A',
+        userResponse: req.body.userResponse || 'N/A',
+        longitude: req.body.longitude || 'N/A',
+        latitude: req.body.latitude || 'N/A',
+        country: req.body.country || 'N/A',
     };
     console.log('Updated projectData:', projectData);
     res.send(projectData);
