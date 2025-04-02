@@ -6,42 +6,44 @@
 <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles/style.css">
 </head>
- <body>
-<div id = "app">
-  <div class ="holder headline">
-    Travel App
-  </div>
-  <div class="holder zip">
-    <label for="city">City name</label>
-    <input type="text" id="city" placeholder="Enter city name here">
-  </div>
-  <div>
-    <label for="countryInput">Country code (optional)</label>
-    <input type="text" id="countryInput" name="countryInput" placeholder="Enter code(GB,US) here if necessary">
-  </div>
-  <div>
-    <label for="travelDate">Date of travel (dd-mm-yyyy)</label>
-    <input type="text" id="travelDate" name="travelDate" placeholder="Enter date of your trip (dd-mm-yyyy) here">
-  </div>
-  <div class ="holder feel">
-    <label for="feelings">Additional comments</label>
-    <textarea class="myInput" id="feelings" placeholder="Enter any additional comments here" rows="9" cols="50"></textarea>
-  </div>
-  <div><button id="generate" type = "submit"> Get trip info</button></div>
-  <div class="holder entry">
-    <div class="title">Travel summary</div>
-    <div id="entryHolder">
-        <div id="cityName"></div>
-        <div id="travelDateOutput"></div>
-        <div id="country"></div>
-        <div id="longitude"></div>
-        <div id="latitude"></div>
-        <div id="weatherOutput"></div>
-        <div id="userResponse"></div> 
+<body>
+  <div id="app">
+    <div class="holder headline">
+      Travel App
     </div>
-</div>
+    <div class="container">
+      <div class="input-column">
+        <div class="holder zip">
+          <label for="city">City name</label>
+          <input type="text" id="city" placeholder="Enter city name here">
+        </div>
+        <div>
+          <label for="countryInput">Country code (optional)</label>
+          <input type="text" id="countryInput" name="countryInput" placeholder="Enter code(GB,US) here if necessary">
+        </div>
+        <div>
+          <label for="travelDate">Date of travel (dd-mm-yyyy)</label>
+          <input type="text" id="travelDate" name="travelDate" placeholder="Enter date of your trip (dd-mm-yyyy) here">
+        </div>
+        <div class="holder feel">
+          <label for="feelings">Additional comments</label>
+          <textarea class="myInput" id="feelings" placeholder="Enter any additional comments here" rows="9" cols="50"></textarea>
+        </div>
+        <div><button id="generate" type="submit">Get trip info</button></div>
+      </div>
+      <div class="summary-box">
+        <div class="title">Travel summary</div>
+        <div id="entryHolder">
+          <div id="cityName"></div>
+          <div id="travelDateOutput"></div>
+          <div id="country"></div>
+          <div id="longitude"></div>
+          <div id="latitude"></div>
+          <div id="weatherOutput"></div>
+          <div id="userResponse"></div>
+        </div>
+      </div>
+    </div>
   </div>
-  </div>
-
 </body>
 </html>

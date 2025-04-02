@@ -24,8 +24,14 @@ body{
 
 }
 
-.entry{
+.summary-box{
     background: rgba(59, 74, 107, .4);
+    flex: 1; /* Makes the summary box take twice the space of the input column */
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    min-width: 300px; /* Ensures the summary box has a minimum width */
 }
 
 #entryHolder{
@@ -115,5 +121,19 @@ button:focus {
     color: #f0d43a; 
     font-family: 'Oswald', sans-serif;
 
-} 
+}
+
+/* Container for the two columns */
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px; /* Increased gap for more spacing */
+  margin: 20px;
+}
+
+/* Input column styling */
+.input-column {
+  flex: 1;
+  margin-right: auto; /* Pushes the input column further to the left */
+}
 
