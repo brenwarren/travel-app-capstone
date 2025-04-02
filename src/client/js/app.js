@@ -8,22 +8,19 @@ const weatherbitAPIKey = 'd014c41fae424c64b0cce23415dfbe50'; // Replace with you
 const weatherbitBaseURL = 'https://api.weatherbit.io/v2.0/forecast/daily';
 
 /* Function to GET Geonames API Data */
-// This function fetches data from the Geonames API based on the city name provided.
-// It constructs the URL using the base URL, city name, and username.
-// It fetches data from the Geonames API and returns the JSON response.
-// If the response is not ok, it throws an error.
-const getCityData = async (baseURL, city, username) => {
+// Updated to include optional country parameter
+const getCityData = async (baseURL, city, username, country = '') => {
     try {
-        const res = await fetch(`${baseURL}${city}&username=${username}`);
+        const countryQuery = country ? `&country=${country}` : '';
+        const res = await fetch(`${baseURL}${city}${countryQuery}&username=${username}`);
         if (!res.ok) {
-            // Throw an error if the HTTP status is not in the 200–299 range
             throw new Error(`HTTP error! Status: ${res.status}`);
         }
         const data = await res.json();
         return data;
     } catch (error) {
         console.error('Error in getCityData:', error);
-        throw error; // Re-throw the error to be caught in performAction
+        throw error;
     }
 };
 
@@ -83,13 +80,10 @@ const postData = async (url = '', data = {}) => {
 };
 
 /* Main Function: performAction */
-// This function is called when the button with id 'generate' is clicked.
-// It retrieves the value of the input field with id 'city'.
-// It calls the getCityData function to fetch data from the Geonames API.
-// If the data is successfully retrieved, it updates the UI with the longitude, latitude, and country name.
-// If there is an error, it logs the error message and alerts the user.
+// Updated to include country input
 export function performAction(e) {
     const city = document.getElementById('city').value;
+    const country = document.getElementById('countryInput').value; // New input for country
     const travelDate = document.getElementById('travelDate').value;
     const feelings = document.getElementById('feelings').value;
 
@@ -100,9 +94,9 @@ export function performAction(e) {
         return;
     }
 
-    console.log(`City: ${city}, Travel Date: ${travelDate}, Feelings: ${feelings}`);
+    console.log(`City: ${city}, Country: ${country}, Travel Date: ${travelDate}, Feelings: ${feelings}`);
 
-    getCityData(baseURL, city, username)
+    getCityData(baseURL, city, username, country)
         .then(function(data) {
             if (data && data.geonames && data.geonames.length > 0) {
                 const { lng, lat, countryName } = data.geonames[0];
