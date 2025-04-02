@@ -26,7 +26,7 @@ body{
 
 .summary-box{
     background: rgba(59, 74, 107, .4);
-    flex: 1; /* Makes the summary box take twice the space of the input column */
+    flex: 1; /* Makes the summary box take same space as the input column */
     border: 1px solid #ccc;
     padding: 20px;
     background-color: #f9f9f9;
@@ -127,13 +127,13 @@ button:focus {
 .container {
   display: flex;
   justify-content: space-between;
-  gap: 40px; /* Increased gap for more spacing */
+  gap: 40px;
   margin: 20px;
 }
 
 /* Input column styling */
 .input-column {
   flex: 1;
-  margin-right: auto; /* Pushes the input column further to the left */
+  margin-right: auto; /* Pushes the input column to the left */
 }
 
