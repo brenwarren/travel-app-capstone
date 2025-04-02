@@ -32,7 +32,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/client/views/index.html'
+      template: './src/client/views/index.html',
+      inject: 'body', // Automatically inject all bundles into the <body>
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',

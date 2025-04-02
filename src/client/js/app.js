@@ -34,11 +34,15 @@ const updateUI = async () => {
         console.log('Fetched Data from Server:', allData); // Log the fetched data for debugging
 
         // Update the UI with the fetched data
-        document.getElementById('cityName').innerHTML = `City: ${allData.city || 'N/A'}`;
-        document.getElementById('travelDate').innerHTML = `Travel Date: ${allData.travelDate || 'N/A'}`;
-        document.getElementById('country').innerHTML = `Country: ${allData.country || 'N/A'}`;
+        //document.getElementById('cityName').innerHTML = `City: ${allData.city || 'N/A'}`;
+        console.log('Travel Date from Server:', allData.travelDate); // Add this log
+        //document.getElementById('travelDate').innerHTML = `Travel Date: ${allData.travelDate || 'N/A'}`;
+        document.getElementById('travelDate').innerHTML = 'Travel Date: 01-01-2025';
+        //document.getElementById('country').innerHTML = `Country: ${allData.country || 'N/A'}`;
+        document.getElementById('country').innerHTML = `Country: Timbuktu`;
         document.getElementById('longitude').innerHTML = `Longitude: ${allData.longitude || 'N/A'}`;
         document.getElementById('latitude').innerHTML = `Latitude: ${allData.latitude || 'N/A'}`;
+        document.getElementById('userResponse').innerHTML = `Feelings: ${allData.userResponse || 'N/A'}`; // Add userResponse to the UI
     } catch (error) {
         console.log('Error updating UI:', error);
     }

@@ -1,1 +1,0 @@
-(()=>{"use strict";let e=new Date;e.getMonth(),e.getDate(),e.getFullYear()})();
