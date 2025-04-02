@@ -4,6 +4,8 @@ import '../styles/style.scss';
 /* Global Variables */
 const baseURL = 'http://api.geonames.org/searchJSON?q=';
 const username = 'brenwarren'; // Geonames username
+const weatherbitAPIKey = 'd014c41fae424c64b0cce23415dfbe50'; // Replace with your Weatherbit API key
+const weatherbitBaseURL = 'https://api.weatherbit.io/v2.0/forecast/daily';
 
 /* Function to GET Geonames API Data */
 // This function fetches data from the Geonames API based on the city name provided.
@@ -22,6 +24,21 @@ const getCityData = async (baseURL, city, username) => {
     } catch (error) {
         console.error('Error in getCityData:', error);
         throw error; // Re-throw the error to be caught in performAction
+    }
+};
+
+// Function to fetch weather data from Weatherbit API
+const getWeatherData = async (lat, lng) => {
+    try {
+        const res = await fetch(`${weatherbitBaseURL}?lat=${lat}&lon=${lng}&key=${weatherbitAPIKey}`);
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error in getWeatherData:', error);
+        throw error;
     }
 };
 
@@ -88,10 +105,9 @@ export function performAction(e) {
     getCityData(baseURL, city, username)
         .then(function(data) {
             if (data && data.geonames && data.geonames.length > 0) {
-                const { lng, lat, countryName } = data.geonames[0]; // Extract from the first result
+                const { lng, lat, countryName } = data.geonames[0];
                 console.log(`Fetched from API - Longitude: ${lng}, Latitude: ${lat}, Country: ${countryName}`);
 
-                // Send data to the server
                 const postDataObject = {
                     city,
                     travelDate,
@@ -101,7 +117,29 @@ export function performAction(e) {
                     country: countryName,
                 };
                 console.log('Data to be sent to server:', postDataObject);
-                return postData('/add', postDataObject);
+
+                // Fetch weather data
+                return getWeatherData(lat, lng).then(weatherData => {
+                    const travelDateObj = new Date(travelDate.split('-').reverse().join('-')); // Convert to Date object
+                    const today = new Date();
+                    const diffInDays = Math.ceil((travelDateObj - today) / (1000 * 60 * 60 * 24));
+
+                    if (diffInDays > 7) {
+                        document.getElementById('weatherOutput').innerHTML = 'Weather information not available for dates more than one week from now.';
+                    } else {
+                        const weatherForDate = weatherData.data.find(day => day.datetime === travelDateObj.toISOString().split('T')[0]);
+                        if (weatherForDate) {
+                            document.getElementById('weatherOutput').innerHTML = `
+                                Weather Forecast: ${weatherForDate.weather.description}<br>
+                                Temperature: ${weatherForDate.temp}°C
+                            `;
+                        } else {
+                            document.getElementById('weatherOutput').innerHTML = 'No weather data available for the selected date.';
+                        }
+                    }
+
+                    return postData('/add', postDataObject);
+                });
             } else {
                 console.error('No location data found in the API response:', data);
                 alert('Unable to retrieve location data. Please try again.');
@@ -109,7 +147,6 @@ export function performAction(e) {
         })
         .then(() => {
             console.log('Data successfully sent to the server.');
-            // Update the UI after sending data to the server
             updateUI();
         })
         .catch(function(error) {
