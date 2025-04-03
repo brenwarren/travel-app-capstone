@@ -53,8 +53,9 @@ body{
 .headline {
     font-size: 36px;
     text-align: center;
-    margin: 20px auto;
-
+    margin: 10px auto; /* Reduced the margin to decrease the space */
+    padding-bottom: 20px;
+    line-height: 1; /* Set line-height to match the font size */
 }
 .title{
 
@@ -135,5 +136,10 @@ button:focus {
 .input-column {
   flex: 1;
   margin-right: auto; /* Pushes the input column to the left */
+}
+
+textarea.myInput {
+  width: 100%; /* Makes the textarea take the full width of the input-column */
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
 }
 
