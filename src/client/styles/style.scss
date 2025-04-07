@@ -9,6 +9,11 @@ body{
     /* grid-template-columns:  */
     height:100vh;
     background: #f23557;
+    background-image: url("https://pixabay.com/get/g31e97d3b1efbbb28e5549e742a716dbd635372395da3363cdaeb11ab26bc1898ecb0ef164fecabc5319cdc8d60fa892ee18cfa8521ca9d6351b42b66cc935751_1280.png");
+    background-repeat: no-repeat; /* Prevent tiling */
+    background-size: cover; /* Scale to cover the entire viewport */
+    background-position: center center; /* Center the image */
+    background-attachment: fixed; /* Fix the background image */
     color: #f0d43a;
     justify-content: center;
     grid-gap: 1em;
@@ -136,6 +141,11 @@ button:focus {
 .input-column {
   flex: 1;
   margin-right: auto; /* Pushes the input column to the left */
+  text-shadow:
+  -1px -1px 0 black,
+  1px -1px 0 black,
+  -1px 1px 0 black,
+  1px 1px 0 black;
 }
 
 textarea.myInput {
