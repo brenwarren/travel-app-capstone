@@ -6,6 +6,8 @@ const baseURL = 'http://api.geonames.org/searchJSON?q=';
 const username = 'brenwarren'; // Geonames username
 const weatherbitAPIKey = 'd014c41fae424c64b0cce23415dfbe50'; // Replace with your Weatherbit API key
 const weatherbitBaseURL = 'https://api.weatherbit.io/v2.0/forecast/daily';
+const pixabayAPIKey = '49556284-b1f2685ca2dc73e5108449d7c'; // Pixabay API key
+const pixabayBaseURL = 'https://pixabay.com/api/';
 
 /* Function to GET Geonames API Data */
 // Updated to include optional country parameter
@@ -36,6 +38,55 @@ const getWeatherData = async (lat, lng) => {
     } catch (error) {
         console.error('Error in getWeatherData:', error);
         throw error;
+    }
+};
+
+/* Function to fetch an image from Pixabay API */
+// Default image URL
+const defaultImageURL = "https://pixabay.com/get/gf25d50234f708fbac6df91ab7aa969785b3fc4c69802cdad62124b62075731463bb156496163199be0329e22fa4a3c27f124421f71083109a0021acf196c9a0e_1280.jpg";
+const getCityImage = async (city, countryName = '') => {
+    try {
+        // Build the query string
+        const query = countryName
+            ? `${city}+${countryName.replace(/\s+/g, '_')}`
+            : city; // Use only the city if countryName is empty
+
+        // Construct the full URL
+        const url = `${pixabayBaseURL}?key=${pixabayAPIKey}&q=${query}&image_type=photo`;
+
+        // Log the full URL for debugging
+        console.log('Pixabay API Request URL:', url);
+
+        // Fetch the image from Pixabay API
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        if (data.hits && data.hits.length > 0) {
+            return data.hits[0].webformatURL; // Return the URL of the first image
+        } else {
+            console.warn('No images found for the given query.');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching image from Pixabay:', error);
+        return null;
+    }
+};
+
+/* Update the travelImage element with the fetched image */
+const updateTravelImage = async (city, countryName) => {
+    const imageUrl = await getCityImage(city, countryName);
+    const travelImageElement = document.getElementById('travelImage');
+    if (imageUrl) {
+        travelImageElement.src = imageUrl;
+        travelImageElement.alt = `Image of ${city}, ${countryName}`;
+    } else {
+        console.warn('No image found, using default image.');
+        //travelImageElement.alt = 'No image available';
+        travelImageElement.src = defaultImageURL; // Use a default image URL if no image is found
     }
 };
 
@@ -98,9 +149,13 @@ export function performAction(e) {
 
     getCityData(baseURL, city, username, country)
         .then(function(data) {
+            // Inside performAction, after fetching location data
             if (data && data.geonames && data.geonames.length > 0) {
                 const { lng, lat, countryName } = data.geonames[0];
                 console.log(`Fetched from API - Longitude: ${lng}, Latitude: ${lat}, Country: ${countryName}`);
+
+                // Update the travel image
+                updateTravelImage(city, countryName || ''); // Pass an empty string if countryName is undefined
 
                 const postDataObject = {
                     city,
@@ -142,6 +197,7 @@ export function performAction(e) {
         .then(() => {
             console.log('Data successfully sent to the server.');
             updateUI();
+            updateTravelImage(city, country);
         })
         .catch(function(error) {
             console.error('Error fetching city data:', error.message || error);
