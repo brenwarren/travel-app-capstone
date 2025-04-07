@@ -105,7 +105,7 @@ const updateUI = async () => {
         document.getElementById('country').innerHTML = `Country: ${allData.country || 'N/A'}`;
         document.getElementById('longitude').innerHTML = `Longitude: ${allData.longitude || 'N/A'}`;
         document.getElementById('latitude').innerHTML = `Latitude: ${allData.latitude || 'N/A'}`;
-        document.getElementById('userResponse').innerHTML = `Additional comments: ${allData.userResponse || 'N/A'}`;
+        document.getElementById('userResponse').innerHTML = `Todo's and comments: ${allData.userResponse || 'N/A'}`;
     } catch (error) {
         console.log('Error updating UI:', error);
     }
