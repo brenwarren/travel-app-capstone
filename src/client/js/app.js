@@ -1,5 +1,5 @@
 // Import SCSS file
-import '../styles/style.scss';
+import '../styles/style.scss'; // Import the SCSS file
 import { initializeEventListeners } from './domEvents.js'; // Import the event initialization function
 
 /* Global Variables */
