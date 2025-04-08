@@ -1,13 +1,14 @@
-import { performAction } from './app.js';
+import { performAction } from './app.js'; // Import the performAction function
+import { savePdf } from './pdfUtils.js'; // Import savePdf if moved to a utility file
 
-// This function attaches an event listener to the button with id 'generate'.
-// When the button is clicked, it calls the performAction function.
-// Ensure the DOM is fully loaded before attaching the event listener
+export function initializeEventListeners() {
+    // Attach event listeners
+    document.getElementById('generate').addEventListener('click', performAction);
+
+    document.getElementById('savePdf').addEventListener('click', savePdf);
+}
+
+// Ensure the DOM is fully loaded before initializing event listeners
 document.addEventListener('DOMContentLoaded', () => {
-    const generateButton = document.getElementById('generate');
-    if (generateButton) {
-        generateButton.addEventListener('click', performAction);
-    } else {
-        console.error("Element with id 'generate' not found.");
-    }
+    initializeEventListeners();
 });
