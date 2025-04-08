@@ -247,3 +247,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize event listeners
 initializeEventListeners();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savePdfButton = document.getElementById("savePdf");
+  const entryHolder = document.getElementById("entryHolder");
+
+  // Initially hide the button
+  savePdfButton.style.display = "none";
+
+  // Function to check if entryHolder has content
+  const checkEntryHolderContent = () => {
+    if (entryHolder.innerText.trim() !== "") {
+      savePdfButton.style.display = "block"; // Show the button
+    } else {
+      savePdfButton.style.display = "none"; // Hide the button
+    }
+  };
+
+  // Observe changes in the entryHolder div
+  const observer = new MutationObserver(checkEntryHolderContent);
+  observer.observe(entryHolder, { childList: true, subtree: true, characterData: true });
+});
