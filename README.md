@@ -10,7 +10,7 @@ The **Travel App Capstone** is a web application that allows users to plan their
 - Responsive and visually appealing UI built with SCSS.
 
 - Pulls in an image for the country from Pixabay API when the entered location brings up no results (good for obscure localities).
-- Allows user to export the Travel Summary to PDF.
+- Allows user to export the Travel Summary to PDF. Export to PDF button is hidden until the travel summary output is available. 
 - Allows the user to add a todo list and/or packing list for their trip.
 
 
