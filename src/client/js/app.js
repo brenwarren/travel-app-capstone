@@ -92,7 +92,7 @@ const updateTravelImage = async (city, countryName) => {
 };
 
 /* Function to update UI */
-// This function updates the UI with the longitude, latitude, and country name.
+// Updates the UI with the longitude, latitude, and country name.
 const updateUI = async () => {
     const request = await fetch('/all');
     try {
@@ -132,7 +132,9 @@ const postData = async (url = '', data = {}) => {
 };
 
 /* Main Function: performAction */
-// Updated to include country input
+// This function is triggered when the user clicks the "Generate" button
+// It collects user input, fetches data from the APIs, and updates the UI.
+// It also includes an input field for country and validates the travel date format.
 export function performAction(e) {
     const city = document.getElementById('city').value;
     const country = document.getElementById('countryInput').value; // New input for country
@@ -248,6 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize event listeners
 initializeEventListeners();
 
+// Function to show/hide the save PDF button based on entryHolder content
+// This function checks if the entryHolder div has any content and shows/hides the button accordingly
+// This function is called when the DOM content is loaded
 document.addEventListener("DOMContentLoaded", () => {
   const savePdfButton = document.getElementById("savePdf");
   const entryHolder = document.getElementById("entryHolder");
