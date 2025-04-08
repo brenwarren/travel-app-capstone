@@ -1,11 +1,9 @@
-import { performAction } from './app.js'; // Import the performAction function
-import { savePdf } from './pdfUtils.js'; // Import savePdf if moved to a utility file
+import { performAction, savePdf } from './app.js'; // Import savePdf from app.js
 
 export function initializeEventListeners() {
     // Attach event listeners
     document.getElementById('generate').addEventListener('click', performAction);
-
-    document.getElementById('savePdf').addEventListener('click', savePdf);
+    document.getElementById('savePdf').addEventListener('click', savePdf); // Update to use savePdf from app.js
 }
 
 // Ensure the DOM is fully loaded before initializing event listeners
