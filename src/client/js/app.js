@@ -44,7 +44,7 @@ const getWeatherData = async (lat, lng) => {
 
 /* Function to fetch an image from Pixabay API */
 // Default image URL
-const defaultImageURL = "https://pixabay.com/get/gf25d50234f708fbac6df91ab7aa969785b3fc4c69802cdad62124b62075731463bb156496163199be0329e22fa4a3c27f124421f71083109a0021acf196c9a0e_1280.jpg";
+const defaultImageURL = "https://pixabay.com/get/g2cc98a597eccf2c54efa13514f4980846b466946bae1a891b89dc8fb0536dee36c5b13af2ca9efbe80455b490ea13af3_640.png";
 const getCityImage = async (city, countryName = '') => {
     try {
         // Build the query string
@@ -236,6 +236,14 @@ export function savePdf() {
 
     pdf.save('Travel_Summary.pdf');
 }
+
+// Function to set the default image
+document.addEventListener('DOMContentLoaded', () => {
+  const travelImage = document.getElementById('travelImage');
+  if (travelImage) {
+    travelImage.src = defaultImageURL;
+  }
+});
 
 // Initialize event listeners
 initializeEventListeners();
