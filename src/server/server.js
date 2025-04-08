@@ -17,10 +17,7 @@ app.use(cors());
 // Serve static files from the 'dist' directory
 app.use(express.static(path.join(__dirname, '../../dist')));
 
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+const port = process.env.PORT || 3000; // Use dynamic port for tests
 
 // GET route that returns the projectData object
 app.get('/all', (req, res) => {
@@ -51,3 +48,12 @@ app.post('/add', (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
 });
+
+// Only start the server if this file is executed directly
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Server running on localhost:${port}`);
+    });
+}
+
+module.exports = app;
