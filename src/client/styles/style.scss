@@ -68,8 +68,8 @@ input{
     display:block;
     height: 60px;
     width: 320px;
-    background:#22b2da;
-    color: #f0d43a;
+    background: white;
+    color: #3b4a6b;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
     border: none;
@@ -90,7 +90,7 @@ h1{
 }
 
 textarea{
-    background:#22b2da;
+    background: white;
     color: #f0d43a;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
@@ -137,6 +137,7 @@ button:focus {
 .input-column {
   flex: 1;
   margin-right: auto; /* Pushes the input column to the left */
+  color: #3b4a6b; /* Text color for the input column */
 }
 
 textarea.myInput {
