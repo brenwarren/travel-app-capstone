@@ -25,10 +25,6 @@ body{
     width: 300px; /* added to make sure that the placeholder comments fit ok*/
 }
 
-.holder{
-
-}
-
 .summary-box{
     display: flex; /* Enable flexbox for the summary-box */
     flex-direction: column; /* Stack children vertically */
@@ -54,27 +50,12 @@ body{
   overflow-y: auto; /* Adds scrolling if content overflows */
 }
 
-#date{
-
-}
-
-#temp{
-
-}
-
-#content{
-
-}
-
 .headline {
     font-size: 36px;
     text-align: center;
     margin: 10px auto; /* Reduced the margin to decrease the space */
     padding-bottom: 20px;
     line-height: 1; /* Set line-height to match the font size */
-}
-.title{
-
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */

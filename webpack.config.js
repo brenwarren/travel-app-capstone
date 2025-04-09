@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/client/js/app.js', // Entry point for your app
@@ -34,7 +35,12 @@ module.exports = {
       filename: 'index.html', // Output file in the dist folder
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css', // Output CSS file
+      filename: '[name].css', // This should output main.css
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: './src/client/js/service-worker.js', to: './' },
+      ],
     }),
   ],
   mode: 'production', // Change to 'development' for development builds
