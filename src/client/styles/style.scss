@@ -144,3 +144,19 @@ textarea.myInput {
   box-sizing: border-box; /* Ensures padding and border are included in the width */
 }
 
+/* Add this media query for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .summary-box {
+    order: 2; /* Ensure it appears after the input-column */
+  }
+
+  .input-column {
+    order: 1;
+  }
+}
+
