@@ -9,7 +9,7 @@ body{
     /* grid-template-columns:  */
     height:100vh;
     background: #f23557;
-    background-image: url("https://pixabay.com/get/gffb7dbea6d5926ec9c007084b45cbb4ef7beaf56ff4018586b7a9df53c17a6dddba81042a4f3c1393aa017b089e15f66_1280.png");
+    background-image: url('../media/background-image.png'); // Background image stored locally because Pixabay images expire
     background-repeat: no-repeat; /* Prevent tiling */
     background-size: cover; /* Scale to cover the entire viewport */
     background-position: center center; /* Center the image */

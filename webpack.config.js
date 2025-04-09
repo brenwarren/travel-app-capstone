@@ -42,6 +42,11 @@ module.exports = {
         { from: './src/client/js/service-worker.js', to: './' },
       ],
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: './src/client/media', to: './media' }, // Copy media files to the dist folder
+      ],
+    }),
   ],
   mode: 'production', // Change to 'development' for development builds
 };
